@@ -10,7 +10,7 @@
 
 //include onsetdetection algorithm
 #include "onsetdetector.h"
-
+//#include "detector.h"
 
 
 #include "detector.h"
@@ -41,5 +41,10 @@ class ofApp : public ofBaseApp{
         //create an instance of the fast fouier transform class
         fft Fourier_transform;
     
+        onsetDetection detect;
+    
+    
+    //detection kickanalysis;
+    //    detection hat;
  
 };

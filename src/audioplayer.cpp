@@ -10,10 +10,10 @@
 
 void audioPlayer::setup(){
     
-    Audio.load("profoundExperiences.flac");
-    
+    Audio.load("kickloop.wav");
+   // Audio.load("profoundExperiences.flac");
     Audio.setVolume(0.5);
-    
+    Audio.setLoop(1);
     Audio.play();
     
 }

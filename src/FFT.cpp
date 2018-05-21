@@ -18,8 +18,8 @@ void fft::setup(int bands){
     
     // the fft needs to be smoothed out, so we create an array of floats
     // for that purpose:
-    fftsignal = new float[8192];
-    for (int i = 0; i < 8192; i++){
+    fftsignal = new float[1024];
+    for (int i = 0; i < 1024; i++){
         fftsignal[i] = 0;
     }
     
@@ -30,13 +30,13 @@ void fft::setup(int bands){
     
 }
 
-void fft::update(){
+float fft::update(int bands){
     
     // grab the fft, and put in into the "fftsignal" array
         float * val = ofSoundGetSpectrum(fftbands);
     for (int i = 0;i < fftbands; i++){
         // let the smoothed calue sink to zero:
-        fftsignal[i] *= 0.96f;
+        fftsignal[i] *= 0.86f;
         
         
         
@@ -45,12 +45,20 @@ void fft::update(){
         if (fftsignal[i] < val[i]) fftsignal[i] = val[i];
         
     }
+    //get the fft out of this class in combination with the next line
+    float curr_value =  fftsignal[bands];
+    
+    return curr_value;
+   // float curr_value = fftsignal[0];
+   // float prev_value = curr_value;
+
 
 }
 
 
 void fft::draw(){
-    float width = (float)(5*128) / fftbands;
+    float width = (float)(5*2048) / fftbands;
+    //
     for (int i = 0;i < fftbands; i++){
         // (we use negative height here, because we want to flip them
         // because the top corner is 0,0)

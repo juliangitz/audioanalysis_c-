@@ -6,14 +6,15 @@ void ofApp::setup(){
     sound.setup();
     
     //set up the fft and give the amound of bands to look at
-    Fourier_transform.setup(8);
+    Fourier_transform.setup(512);
     
 
     
-
+    
+    bool kick = false;
     
     
-}
+};
 
 //--------------------------------------------------------------
 void ofApp::update(){
@@ -21,14 +22,22 @@ void ofApp::update(){
     //NOTE: is this needed?
     ofSoundUpdate();
     
-    Fourier_transform.update();
+    Fourier_transform.update(0);
  //   Fourier_transform.getData(0.5, 0);
 //  Fourier_transform.getData(0.5, 3);
- //   kick.watchBand(1);
+ //   kickanalysis.watchBand(1);
  //   hat.watchBand(3);
+   //std::cout<<Fourier_transform.update(0)<<std::endl;
+    
+    //this is just to test it out but get som better text in here than 1, 2, 3
+    detect.detection("kick", 0.7, Fourier_transform.update(3));
     
     
-}
+   // detect.detection("kick", 0.6, Fourier_transform.update(0));
+    // detect.detection("3", 0.1, Fourier_transform.update(5));
+    
+    
+  }
 
 //--------------------------------------------------------------
 void ofApp::draw(){

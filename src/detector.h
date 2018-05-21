@@ -23,7 +23,7 @@ public:
     
  
    
-protected:
+
       //to messure current value
     float curr_value;
     //to mesure previous value

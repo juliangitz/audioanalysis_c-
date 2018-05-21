@@ -29,7 +29,7 @@ public:
     void setup(int bands);
     
     //make a function for the update
-    void update();
+    float update(int bands);
     
     //make a function for the draw
     void draw();

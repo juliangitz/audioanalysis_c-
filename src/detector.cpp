@@ -11,7 +11,7 @@
 
 
 
-void detection::watchBand(int band) {
+void detection::watchBand(int band){
     curr_value = fftsignal[band];
     prev_value = curr_value;
 };

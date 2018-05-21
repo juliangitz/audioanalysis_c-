@@ -12,33 +12,31 @@
 //include openframeworks libs
 #include "ofMain.h"
 
-//include the detector polymorphism class
-#include "detector.h"
 
-class onsetDetection : public detection
+
+//include the detector polymorphism class
+//#include "detector.h"
+
+class onsetDetection
 {
 public:
  
     
+  
+    void detection(string numbertest,float detectValue, float input);
     
+   
     
-    void setup(float kickdetect);
-    
-    void update();
-    
-    void draw();
-    
-    
-    
-    //-----------------
-    
-    float kickdetect;
+    float curr_value;
+    float last_value;
     
     bool kick;
     
+    float time;
+    float prev_time;
+    float  timeInterval;
+    float  prev_timeInterval;
     
-    detection kickanalysis;
-//    detection hat;
 };
 
 
