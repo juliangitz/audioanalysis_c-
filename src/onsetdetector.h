@@ -36,6 +36,16 @@ public:
     float prev_time;
     float  timeInterval;
     float  prev_timeInterval;
+    float rememberInterval;
+    float detectedInteval;
+    float bpm;
+    float lastbpm;
+    float finalBpm;
+    
+    //to count the beats in a minute
+  
+    int counter = 0;
+    int detectiontimes = 0;
     
 };
 

@@ -18,8 +18,8 @@ void fft::setup(int bands){
     
     // the fft needs to be smoothed out, so we create an array of floats
     // for that purpose:
-    fftsignal = new float[1024];
-    for (int i = 0; i < 1024; i++){
+    fftsignal = new float[bands];
+    for (int i = 0; i < bands; i++){
         fftsignal[i] = 0;
     }
     
@@ -57,7 +57,7 @@ float fft::update(int bands){
 
 
 void fft::draw(){
-    float width = (float)(5*2048) / fftbands;
+    float width = (float)(5*fftbands) / fftbands;
     //
     for (int i = 0;i < fftbands; i++){
         // (we use negative height here, because we want to flip them
