@@ -11,7 +11,7 @@ void ofApp::setup(){
     sound.setup();
     
     //set up the fft and give the amound of bands to look at
-    Fourier_transform.setup(32);
+    Fourier_transform.setup(512);
     
 
     
@@ -35,7 +35,7 @@ void ofApp::update(){
    //std::cout<<Fourier_transform.update(0)<<std::endl;
     
     //this is just to test it out but get som better text in here than 1, 2, 3
-    detect.detection("kick", 0.8, Fourier_transform.update(0));
+    detect.detection("kick", 0.8, Fourier_transform.update(3));
     
     
    // detect.detection("kick", 0.6, Fourier_transform.update(0));

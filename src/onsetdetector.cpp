@@ -26,19 +26,12 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
     if(curr_value > detectValue && last_value < detectValue)
     {
 
-       // std::cout<<numbertest<<std::endl;
+      
         kick = true;
-        
-        //bpm algorithm
-        
-       
-  
-        //ofResetElapsedTimeCounter();
         
         //calculate inteval in seconds between every detected beat
         timeInterval = time - prev_time;
-      //  std::cout<<timeInterval<<std::endl;
-        
+
         
         
       
@@ -48,43 +41,27 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
             
             std::cout<<timeInterval<<std::endl;
             detectedInteval =timeInterval;
-            counter++;
-            //TODO:
-            //mesure i++ when elepsed time is 60 seconds give i and reset to 0?
-            
-        }
-        if (counter == 2){
-            
-        }
-        
-        
-        
-        //std::cout<<time<<std::endl;
-        //if (time > minute){
-        if (counter == 2){
-           // std::cout<<"bpm is"<<std::endl;
             
             bpm = 60 / detectedInteval;
+            //add detected inteval to the onset vector
+            onsetData.push_back(bpm);
             
-           // counter = counter * 30;
-           // std::cout<<bpm<<std::endl;
-            //set bmp detection for next minute
-            //minute = minute + 2;
-            //reset bpm counter to 0
-            counter = 0;
-            detectiontimes++;
-            lastbpm = bpm;
-        }
         
-        if (detectiontimes == 2)
-        {
             
-            finalBpm = bpm + lastbpm;
-            finalBpm = finalBpm/2;
-            std::cout<<"final bpm is"<<std::endl;
-            std::cout<<finalBpm<<std::endl;
+            for (unsigned int i = 0; i< onsetData.size(); i++) {
+                average =  average + onsetData[i];
+            }
+            //cout << "size"<<endl;
+            //cout << size<<endl;
+            average = average / onsetData.size();
+            cout << "average"<<endl;
+            cout << average<<endl;
             
-            detectiontimes = 0;
+            average = 0;
+            //cout the amound of onsets detected
+            counter++;
+            
+            
         }
         
         
@@ -107,5 +84,6 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
     
     
 }
+
 
 

@@ -12,7 +12,7 @@ void audioPlayer::setup(){
     
     //easy test
    
-   // Audio.load("kickloop.wav");
+    Audio.load("kickloop.wav");
     
     
     //more advanced tests:
@@ -22,7 +22,7 @@ void audioPlayer::setup(){
     
     //harder test
     
-    Audio.load("OrganicPaprika.mp3");
+    //Audio.load("OrganicPaprika.mp3");
     
     
     Audio.setVolume(0.5);

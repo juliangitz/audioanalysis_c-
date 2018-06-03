@@ -11,7 +11,7 @@
 
 //include openframeworks libs
 #include "ofMain.h"
-
+#include <vector>
 
 
 //include the detector polymorphism class
@@ -21,11 +21,15 @@ class onsetDetection
 {
 public:
  
+    //vector to calculate the moving average
+    vector<float> onsetData;
     
-  
+    float average = 0 ;
+    float size= 0;
+    
     void detection(string numbertest,float detectValue, float input);
     
-   
+
     
     float curr_value;
     float last_value;
