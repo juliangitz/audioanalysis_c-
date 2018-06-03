@@ -12,13 +12,14 @@ void audioPlayer::setup(){
     
     //easy test
    
-    Audio.load("kickloop.wav");
+   // Audio.load("kickloop.wav");
     
     
     //more advanced tests:
    
     //Audio.load("vamp.mp3");
-    //Audio.load("profoundExperiences.flac");
+   
+    Audio.load("profoundExperiences.flac");
     
     //harder test
     

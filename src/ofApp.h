@@ -43,6 +43,9 @@ class ofApp : public ofBaseApp{
     
         onsetDetection detect;
     
+    vector<float> peakFinder;
+    float peak = 0;
+    int bigestNumber = 0;
     
     //detection kickanalysis;
     //    detection hat;

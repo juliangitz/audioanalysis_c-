@@ -24,6 +24,24 @@ public:
     //vector to calculate the moving average
     vector<float> onsetData;
     
+    
+    vector<float> pulseData;
+    float pulseAverage =0;
+    float pulse;
+    float pulseInterval;
+    float steady_pulse;
+    vector <float>  steadyPulseData;
+    float finalpulse =0;
+    float finalbpm = 0;
+    float prev_pulse;
+    
+    
+   
+  //  float detectInterval;
+  //  float perv_detectInterval;
+    
+    
+    
     float average = 0 ;
     float size= 0;
     
@@ -40,16 +58,16 @@ public:
     float prev_time;
     float  timeInterval;
     float  prev_timeInterval;
-    float rememberInterval;
+   // float rememberInterval;
     float detectedInteval;
     float bpm;
-    float lastbpm;
+   // float lastbpm;
     float finalBpm;
     
     //to count the beats in a minute
   
     int counter = 0;
-    int detectiontimes = 0;
+   // int detectiontimes = 0;
     
 };
 

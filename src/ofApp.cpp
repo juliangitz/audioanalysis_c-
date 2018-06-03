@@ -11,7 +11,7 @@ void ofApp::setup(){
     sound.setup();
     
     //set up the fft and give the amound of bands to look at
-    Fourier_transform.setup(512);
+    Fourier_transform.setup(1024);
     
 
     
@@ -27,15 +27,49 @@ void ofApp::update(){
     //NOTE: is this needed?
     ofSoundUpdate();
     
-    Fourier_transform.update(0);
- //   Fourier_transform.getData(0.5, 0);
+    
+    peak = 0;
+    
+    for (int i = 0; i< 4; i++){
+        peakFinder.push_back(Fourier_transform.update(i));
+       
+        }
+    
+    for (int i = 0; i< 4; i++){
+        if (peakFinder[i] > peak){
+            peak = peakFinder[i];
+            bigestNumber = i;
+        }
+       // cout << "The biggest number is: " << bigestNumber << endl;
+    }
+    
+    
+    
+  // peak = 0;
+    
+   /*
+    for (int i = 0; i< 512; i++){
+        if (peakFinder[i] > peak){
+            peak = i;
+        }
+     cout << "The biggest number is: " << peak << endl;
+        
+    }
+    */
+    
+    peakFinder.clear();
+    
+    
+    //   Fourier_transform.getData(0.5, 0);
 //  Fourier_transform.getData(0.5, 3);
  //   kickanalysis.watchBand(1);
  //   hat.watchBand(3);
    //std::cout<<Fourier_transform.update(0)<<std::endl;
     
     //this is just to test it out but get som better text in here than 1, 2, 3
-    detect.detection("kick", 0.8, Fourier_transform.update(3));
+    
+    
+    detect.detection("kick", 0.7, Fourier_transform.update(bigestNumber));
     
     
    // detect.detection("kick", 0.6, Fourier_transform.update(0));
