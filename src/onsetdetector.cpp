@@ -36,7 +36,7 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
         
       
         //create some error margine
-        if (prev_timeInterval > timeInterval - 0.1 && prev_timeInterval < timeInterval + 0.1){
+        if (prev_timeInterval > timeInterval - 0.01 && prev_timeInterval < timeInterval + 0.01){
            //std::cout<<"bpm match"<<std::endl;
             
 
@@ -44,10 +44,10 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
             
             
             
-            bpm = 60 / detectedInteval;
+          //  bpm = 60 / detectedInteval;
             
             //add detected inteval to the onset vector
-            onsetData.push_back(bpm);
+            onsetData.push_back(detectedInteval);
             
             
             for (unsigned int i = 0; i< onsetData.size(); i++) {
@@ -65,29 +65,46 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
             //ckeck if interval has a steady puslse
             pulseData.push_back(average);
             
-            for (unsigned int i = 0; i< 10; i++) {
+            for (unsigned int i = 0; i< pulseData.size(); i++) {
                 pulseAverage =  pulseAverage + pulseData[i];
             }
-            pulseAverage = pulseAverage / 10;
-            pulseAverage = 60 / pulseAverage;
+            pulseAverage = pulseAverage / pulseData.size();
+            bpm = 60 / pulseAverage;
+           // pulseAverage = pulseAverage / 10;
+           // pulseAverage = 60 / pulseAverage;
             
+          /*
             //if the data is bigger then 10 clear the whole list and count again
             if (pulseData.size() > 10){
                 pulseData.clear();
             }
-           // cout << "pulseAverage"<<endl;
-          //  cout << "pulseAverage"<<endl;
-           // cout << pulseAverage<<endl;
+           */
+           // cout << "bpm"<<endl;
+           // cout << bpm<<endl;
+          //  cout << pulseAverage<<endl;
            //  cout << "timeInterval"<<endl;
            // cout << timeInterval<<endl;
           
             pulse =pulseAverage;
-            if (pulse > timeInterval - 0.01 && pulse < timeInterval + 0.01 )
+            
+          //  cout << "pulse"<<endl;
+           // cout << pulse<<endl;
+            
+         
+            
+            
+            
+            
+            
+            
+            if (average > timeInterval - 0.01 && average < timeInterval + 0.01 )
             {
-               // cout<<"bpm stady pulse"<<endl;
-                steady_pulse= pulse;
+                cout<<"bpm stady pulse"<<endl;
+                steady_pulse= timeInterval;
                 cout<<steady_pulse<<endl;
+               
                 counter = 0;
+                
                 
             }
             /*
@@ -104,7 +121,7 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
             
          
             
-                if (steady_pulse > timeInterval - 0.1 && steady_pulse < timeInterval + 0.1 )
+                if (steady_pulse > prev_timeInterval - 0.01 && steady_pulse < prev_timeInterval + 0.01 )
                 {
                     cout<<"bpm stady pulse"<<endl;
                     steadyPulseData.push_back(steady_pulse);
@@ -130,7 +147,7 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
             
             
             
-          
+            
             
             finalpulse = 0;
             average = 0;
@@ -139,8 +156,10 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
             //cout the amound of onsets detected
          
             
-            
+       
         }
+          
+    
         
         prev_pulse = pulse;
         prev_timeInterval = timeInterval;

@@ -46,6 +46,8 @@ class ofApp : public ofBaseApp{
     vector<float> peakFinder;
     float peak = 0;
     int bigestNumber = 0;
+    float volumeToCheck = 0;
+    float lastVolumeToCheck =0;
     
     //detection kickanalysis;
     //    detection hat;

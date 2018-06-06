@@ -12,18 +12,18 @@ void audioPlayer::setup(){
     
     //easy test
    
-   // Audio.load("kickloop.wav");
-    
-    
+   //Audio.load("kickloop.wav");
+    //  Audio.load("08 Rhythm & Sound - Carrier.flac");
+
     //more advanced tests:
    
     //Audio.load("vamp.mp3");
    
-    Audio.load("profoundExperiences.flac");
+   // Audio.load("profoundExperiences.flac");
     
     //harder test
     
-    //Audio.load("OrganicPaprika.mp3");
+    Audio.load("OrganicPaprika.mp3");
     
     
     Audio.setVolume(0.5);

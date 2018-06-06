@@ -30,22 +30,27 @@ void ofApp::update(){
     
     peak = 0;
     
-    for (int i = 0; i< 4; i++){
+    for (int i = 0; i< 10; i++){
         peakFinder.push_back(Fourier_transform.update(i));
        
         }
     
-    for (int i = 0; i< 4; i++){
+    for (unsigned int i = 0; i< peakFinder.size(); i++){
         if (peakFinder[i] > peak){
             peak = peakFinder[i];
             bigestNumber = i;
+            volumeToCheck = Fourier_transform.update(bigestNumber);
+            volumeToCheck = volumeToCheck - 0.8;
+            lastVolumeToCheck = volumeToCheck;
         }
-       // cout << "The biggest number is: " << bigestNumber << endl;
+  //  cout << "The biggest volume is: " << volumeToCheck << endl;
+   
     }
     
     
     
-  // peak = 0;
+    
+   peak = 0;
     
    /*
     for (int i = 0; i< 512; i++){
@@ -69,7 +74,7 @@ void ofApp::update(){
     //this is just to test it out but get som better text in here than 1, 2, 3
     
     
-    detect.detection("kick", 0.7, Fourier_transform.update(bigestNumber));
+    detect.detection("kick", lastVolumeToCheck, Fourier_transform.update(bigestNumber));
     
     
    // detect.detection("kick", 0.6, Fourier_transform.update(0));
