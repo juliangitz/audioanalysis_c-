@@ -32,17 +32,20 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
         //calculate inteval in seconds between every detected beat
         timeInterval = time - prev_time;
 
+
         
+        cout<<"bang"<<endl;
+ 
         
       
         //create some error margine
-        if (prev_timeInterval > timeInterval - 0.01 && prev_timeInterval < timeInterval + 0.01){
+        if (prev_timeInterval > timeInterval - 0.05 && prev_timeInterval < timeInterval + 0.05){
            //std::cout<<"bpm match"<<std::endl;
             
 
             detectedInteval =timeInterval;
             
-            
+            cout<< detectedInteval <<endl;
             
           //  bpm = 60 / detectedInteval;
             
@@ -107,7 +110,8 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
                 
                 
             }
-            /*
+            
+                  /*
             else{
                    counter++;
                     }
@@ -143,7 +147,7 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
             
                 cout<<"finalbpm"<<endl;
                 cout<<finalbpm<<endl;
-            
+                    
             
             
             

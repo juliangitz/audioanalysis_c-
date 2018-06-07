@@ -27,7 +27,7 @@ void ofApp::update(){
     //NOTE: is this needed?
     ofSoundUpdate();
     
-    
+   /*
     peak = 0;
     
     for (int i = 0; i< 10; i++){
@@ -46,39 +46,155 @@ void ofApp::update(){
   //  cout << "The biggest volume is: " << volumeToCheck << endl;
    
     }
+    */
+    
     
     
     
     
    peak = 0;
     
-   /*
-    for (int i = 0; i< 512; i++){
-        if (peakFinder[i] > peak){
-            peak = i;
+    
+    
+    //spectral flux algorithm
+    
+    spectrum.clear();
+    for (int i = 0; i< 10; i++){
+        //add the fft values of all the bands to the spectrum vector
+        spectrum.push_back(Fourier_transform.update(i));
+        
+    }
+    
+    if (dataAvalible == true){
+        //flux claculation
+        for (unsigned int i = 0; i<spectrum.size(); i++ )
+        {
+         
+            float value = (spectrum[i] - lastSpectrum[i]);
+            if (value > 0){
+                flux = value;
+                spectralFlux.push_back(flux);
+            }
+            
+
+             // cout<<flux<<endl;
+    
         }
-     cout << "The biggest number is: " << peak << endl;
+        
+    }
+    
+    
+    spectralFlux.push_back(flux);
+    
+    
+    lastSpectrum.clear();
+    
+    for (int i = 0; i< 10; i++){
+        //add the prev spectrum data
+        lastSpectrum.push_back(spectrum[i]);
+        dataAvalible = true;
+    }
+    
+    for (int i = 0; i< spectralFlux.size(); i++){
+        float fluxvalue = spectralFlux[1];
+      //  cout<< fluxvalue << endl;
+    }
+    
+
+    peak = 0;
+    
+    for (int i = 0; i< 10; i++){
+        peakFinder.push_back(spectralFlux[i]);
+        
+    }
+    
+    for (unsigned int i = 0; i< 10; i++){
+        if (peakFinder[i] > peak){
+            peak = peakFinder[i];
+            
+            bigestNumber = i;
+            
+          
+                
+        
+       
+            
+            
+            chanche =false;
+            if( bigestNumber != lastbigestNumber){
+            avragenumber.push_back(bigestNumber);
+              //  cout<<bigestNumber<<endl;
+                chanche =true;
+            }
+             lastbigestNumber = bigestNumber;
+           
+        }
+       //   cout << "The biggest volume is: " << lastVolumeToCheck << endl;
+        
+    }
+    if (chanche == true)
+    {
+    for (unsigned int i = 0; i< avragenumber.size(); i++) {
+        avrage =  avrage + avragenumber[i];
+    }
+    avrage = avrage / avragenumber.size();
+    }
+    
+    //cout<< avrage <<endl;
+   /*
+    if (avragenumber.size() > 40)
+    {
+        avragenumber.clear();
         
     }
     */
+   // volumeToCheck =  spectralFlux[avrage];
+   // for (int i = 0; i< 10; i++){
+    
+    if (spectralFlux[avrage] > 0.6){
+    
+    avrageVolumeList.push_back(spectralFlux[avrage]);
+        
+    //}
+   
+    
+    for (unsigned int i = 0; i< avrageVolumeList.size(); i++) {
+        avrageVolume =  avrageVolume + avrageVolumeList[i];
+    }
+    avrageVolume = avrageVolume / avrageVolumeList.size();
+    
+    volumeToCheck = avrageVolume -0.2;
+    //cout<<avVolume<<endl;
+    };
+    
+   // lastVolumeToCheck = volumeToCheck;
+   
+    
+   
+    
+    
+    
+    
     
     peakFinder.clear();
+   
+   //  detect.detection("kick", 0.5, spectralFlux[5]);
+    detect.detection("kick", volumeToCheck, spectralFlux[avrage]);
+   // detect.detection("kick", lastVolumeToCheck, Fourier_transform.update(bigestNumber));
     
+    //spectral flux
+    //https://www.badlogicgames.com/wordpress/?p=161
+
+
     
-    //   Fourier_transform.getData(0.5, 0);
-//  Fourier_transform.getData(0.5, 3);
- //   kickanalysis.watchBand(1);
- //   hat.watchBand(3);
-   //std::cout<<Fourier_transform.update(0)<<std::endl;
+ 
+   
+
     
-    //this is just to test it out but get som better text in here than 1, 2, 3
+   
     
-    
-    detect.detection("kick", lastVolumeToCheck, Fourier_transform.update(bigestNumber));
-    
-    
-   // detect.detection("kick", 0.6, Fourier_transform.update(0));
-    // detect.detection("3", 0.1, Fourier_transform.update(5));
+    spectralFlux.clear();
+   
     
     
   }
@@ -86,8 +202,29 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
-    Fourier_transform.draw();
+   // Fourier_transform.draw();
 
+    float width = (float)10;
+    //
+    for (int i = 0;i < 10; i++){
+        // (we use negative height here, because we want to flip them
+        // because the top corner is 0,0)
+       // int number;
+         ofSetColor(100, 100, 100);
+        //number = spectralFlux[i];
+        if (i == avrage){
+            ofSetColor(255, 255, 255);
+           // cout<<"bam"<<endl;
+        };
+        
+        
+        ofDrawRectangle(100+i*width,ofGetHeight()-100,width,-(spectralFlux[i] * 200));
+     
+    }
+
+    
+    
+    
 }
 
 //--------------------------------------------------------------

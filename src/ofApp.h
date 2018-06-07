@@ -43,13 +43,28 @@ class ofApp : public ofBaseApp{
     
         onsetDetection detect;
     
+    //peek finder
+    vector<int> avragenumber;
+    int avrage;
+    bool chanche =false;
+    
     vector<float> peakFinder;
     float peak = 0;
+      int lastbigestNumber = 0;
     int bigestNumber = 0;
+    
+    
     float volumeToCheck = 0;
+    vector<float> avrageVolumeList;
+    float avrageVolume;
+    
     float lastVolumeToCheck =0;
     
-    //detection kickanalysis;
-    //    detection hat;
+    //spectral flux
+    vector <float> spectrum;
+    vector <float> lastSpectrum;
+    float flux = 0;
+    vector<float> spectralFlux;
+    bool dataAvalible = false;
  
 };
