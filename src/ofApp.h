@@ -66,5 +66,12 @@ class ofApp : public ofBaseApp{
     float flux = 0;
     vector<float> spectralFlux;
     bool dataAvalible = false;
+    
+
+    //------draw volume
+    vector <float> volHistory;
+    float scaledVol = 0.0;
+    float detectionpoint = 0.0;
+    
  
 };

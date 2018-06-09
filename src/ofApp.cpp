@@ -51,7 +51,6 @@ void ofApp::update(){
     
     
     
-    
    peak = 0;
     
     
@@ -170,10 +169,20 @@ void ofApp::update(){
    // lastVolumeToCheck = volumeToCheck;
    
     
-   
+    //------draw volume
+    
+    scaledVol = spectralFlux[avrage];
+    
+    //lets record the volume into an array
+    volHistory.push_back( scaledVol );
+    
+    //if we are bigger the the size we want to record - lets drop the oldest value
+    if( volHistory.size() >= 400 ){
+        volHistory.erase(volHistory.begin(), volHistory.begin()+1);
+    }
     
     
-    
+    //cout<<volumeToCheck<<endl;
     
     
     peakFinder.clear();
@@ -221,6 +230,23 @@ void ofApp::draw(){
         ofDrawRectangle(100+i*width,ofGetHeight()-100,width,-(spectralFlux[i] * 200));
      
     }
+    
+    ofBeginShape();
+    for (unsigned int i = 0; i < volHistory.size(); i++){
+        if( i == 0 ) ofVertex(i, 400);
+   
+  
+      
+        detectionpoint = 400 - volumeToCheck * 70;
+        ofVertex(i, 400 - volHistory[i] * 70);
+      
+        if( i == volHistory.size() -1 ) ofVertex(i, 400);
+       
+    }
+        ofEndShape(false);
+    ofSetColor(200, 100, 100);
+    ofDrawLine(0, detectionpoint, detectionpoint, detectionpoint);
+    
 
     
     

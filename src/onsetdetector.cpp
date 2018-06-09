@@ -34,7 +34,7 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
 
 
         
-        cout<<"bang"<<endl;
+       // cout<<"bang"<<endl;
  
         
       
@@ -90,17 +90,28 @@ void onsetDetection::detection(string numbertest, float detectValue, float input
           
             pulse =pulseAverage;
             
-          //  cout << "pulse"<<endl;
-           // cout << pulse<<endl;
+            cout << "pulse"<<endl;
+            cout << pulse<<endl;
             
-         
+            if (pulse > detectedInteval - 0.1 && pulse < detectedInteval +0.1 ){
+                timeswrong++;
+                cout<<"wrong data"<<endl;
+
+                
+            }
+            if (timeswrong == 3){
+                pulseData.clear();
+               steadyPulseData.clear();
+                cout<<"cleared data"<<endl;
+               timeswrong = 0;
+                
+            }
+           // pulseData.clear();
             
             
             
             
-            
-            
-            if (average > timeInterval - 0.01 && average < timeInterval + 0.01 )
+            if (pulse > detectedInteval - 0.01 && pulse < detectedInteval + 0.01 )
             {
                 cout<<"bpm stady pulse"<<endl;
                 steady_pulse= timeInterval;

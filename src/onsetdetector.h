@@ -24,6 +24,7 @@ public:
     //vector to calculate the moving average
     vector<float> onsetData;
     
+    int timeswrong = 0;
     
     vector<float> pulseData;
     float pulseAverage =0;
