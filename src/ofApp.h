@@ -73,5 +73,9 @@ class ofApp : public ofBaseApp{
     float scaledVol = 0.0;
     float detectionpoint = 0.0;
     
+    
+    vector <float> CleanVolHistory;
+    float CleanScaledVol = 0.0;
+    
  
 };

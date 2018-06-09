@@ -46,7 +46,7 @@ public:
     float average = 0 ;
     float size= 0;
     
-    void detection(string numbertest,float detectValue, float input);
+    float detection(string numbertest,float detectValue, float input);
     
 
     
@@ -64,11 +64,18 @@ public:
     float bpm;
    // float lastbpm;
     float finalBpm;
+    float FinalResult=0;
+    float getBpm();
+    vector <float> avrageFinal;
+    float bpmOut = 0;
+
     
     //to count the beats in a minute
   
     int counter = 0;
    // int detectiontimes = 0;
+    
+    
     
 };
 

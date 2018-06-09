@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofBackground(54, 54, 54);
     
     //TODO: add algorythm that looks if pres detaction is simular to current detection
     
@@ -182,13 +183,30 @@ void ofApp::update(){
     }
     
     
+    //clean audio
+    CleanScaledVol = Fourier_transform.update(avrage);
+    
+    //lets record the volume into an array
+    CleanVolHistory.push_back( CleanScaledVol );
+    
+    //if we are bigger the the size we want to record - lets drop the oldest value
+    if( CleanVolHistory.size() >= 400 ){
+        CleanVolHistory.erase(CleanVolHistory.begin(), CleanVolHistory.begin()+1);
+    }
+    
+    
+    
+    
+    
+    
+    
     //cout<<volumeToCheck<<endl;
     
     
     peakFinder.clear();
    
    //  detect.detection("kick", 0.5, spectralFlux[5]);
-    detect.detection("kick", volumeToCheck, spectralFlux[avrage]);
+   detect.detection("kick", volumeToCheck, spectralFlux[avrage]);
    // detect.detection("kick", lastVolumeToCheck, Fourier_transform.update(bigestNumber));
     
     //spectral flux
@@ -211,8 +229,18 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+    ofNoFill();
+    ofSetLineWidth(1);
+    ofDrawRectangle(0, 501, 400, 100);
+   
+    
+    ofSetLineWidth(1);
+    ofDrawRectangle(0, 101, 400, 100);
+    
+    
+    
    // Fourier_transform.draw();
-
+    ofFill();
     float width = (float)10;
     //
     for (int i = 0;i < 10; i++){
@@ -227,29 +255,52 @@ void ofApp::draw(){
         };
         
         
-        ofDrawRectangle(100+i*width,ofGetHeight()-100,width,-(spectralFlux[i] * 200));
+        ofDrawRectangle(400+i*width,ofGetHeight()-300,width,-(spectralFlux[i] * 200));
      
     }
-    
+     ofNoFill();
     ofBeginShape();
     for (unsigned int i = 0; i < volHistory.size(); i++){
-        if( i == 0 ) ofVertex(i, 400);
+        if( i == 0 ) ofVertex(i, 600);
    
   
       
-        detectionpoint = 400 - volumeToCheck * 70;
-        ofVertex(i, 400 - volHistory[i] * 70);
+        detectionpoint = 600 - volumeToCheck * 70;
+        ofVertex(i, 600 - volHistory[i] * 70);
       
-        if( i == volHistory.size() -1 ) ofVertex(i, 400);
+        if( i == volHistory.size() -1 ) ofVertex(i, 600);
        
     }
         ofEndShape(false);
     ofSetColor(200, 100, 100);
-    ofDrawLine(0, detectionpoint, detectionpoint, detectionpoint);
+    ofDrawLine(0, detectionpoint, 400, detectionpoint);
+   // ofdrawline
     
-
     
+    //clean audio
     
+    ofBeginShape();
+    for (unsigned int i = 0; i < CleanVolHistory.size(); i++){
+        if( i == 0 )
+        ofVertex(i, 200);
+        
+        
+        
+    
+        ofVertex(i, 200 - CleanVolHistory[i] * 70);
+        
+        if( i == CleanVolHistory.size() -1 )
+            ofVertex(i, 200);
+        
+            }
+    ofEndShape(false);
+ 
+    string reportString = "bpm: "+ofToString(detect.getBpm());
+    ofDrawBitmapString(reportString, 32, 689);
+    string audioString = "procesed audio: ";
+    ofDrawBitmapString(audioString, 4, 496);
+    string audio = "audio: ";
+    ofDrawBitmapString(audio, 4, 96);
     
 }
 

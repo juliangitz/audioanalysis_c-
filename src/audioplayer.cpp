@@ -6,6 +6,8 @@
 //
 //
 
+//TODO: fix arangement of peaking volume in inteface
+
 #include "audioplayer.h"
 
 void audioPlayer::setup(){
@@ -17,16 +19,17 @@ void audioPlayer::setup(){
 
     //more advanced tests:
    
-    Audio.load("vamp.mp3");
-   
+    //Audio.load("vamp.mp3");
+    
  //   Audio.load("profoundExperiences.flac");
-   //Audio.load("08 Rhythm & Sound - Carrier.flac");
+   
    
     //harder test
 
-  //  Audio.load("OrganicPaprika.mp3");
-    
-    
+    //Audio.load("OrganicPaprika.mp3");
+    Audio.load("04 Disco Boy.mp3");
+  //  Audio.load("08 Rhythm & Sound - Carrier.flac");
+      // Audio.load("")
     Audio.setVolume(0.5);
     Audio.setLoop(1);
     Audio.play();
