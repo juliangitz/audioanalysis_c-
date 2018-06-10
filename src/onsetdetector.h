@@ -14,8 +14,7 @@
 #include <vector>
 
 
-//include the detector polymorphism class
-//#include "detector.h"
+
 
 class onsetDetection
 {
@@ -34,26 +33,21 @@ public:
     vector <float>  steadyPulseData;
     float finalpulse =0;
     float finalbpm = 0;
-    float prev_pulse;
-    
-    
-   
-  //  float detectInterval;
-  //  float perv_detectInterval;
+ 
     
     
     
     float average = 0 ;
     float size= 0;
     
-    float detection(string numbertest,float detectValue, float input);
+    void detection(float detectValue, float input);
     
 
     
     float curr_value;
     float last_value;
     
-    bool kick;
+    
     
     float time;
     float prev_time;
@@ -71,9 +65,7 @@ public:
 
 
     
-    //to count the beats in a minute
-  
-    int counter = 0;
+
    // int detectiontimes = 0;
     
     

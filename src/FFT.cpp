@@ -48,29 +48,8 @@ float fft::update(int bands){
     float curr_value =  fftsignal[bands];
     
     return curr_value;
-   // float curr_value = fftsignal[0];
-   // float prev_value = curr_value;
-
+   
 
 }
 
 
-void fft::draw(){
-    float width = (float)(5*fftbands) / fftbands;
-    //
-    for (int i = 0;i < fftbands; i++){
-        // (we use negative height here, because we want to flip them
-        // because the top corner is 0,0)
-        ofDrawRectangle(100+i*width,ofGetHeight()-100,width,-(fftsignal[i] * 200));
-    }
-    
-    
-}
-/*
-float fft::getData(float detectionlevel, int bandnumber){
-    curr_value = fftsignal[bandnumber];
-    prev_value = curr_value;
-    return curr_value;
-    
-}
- */

@@ -16,8 +16,7 @@ void ofApp::setup(){
     
 
     
-    
-    bool kick = false;
+   
     
     
 };
@@ -124,63 +123,63 @@ void ofApp::update(){
     //here we calculate the avrage band to find the onset
     if (calculateBand == true)
         {
-            for (unsigned int i = 0; i< avragenumber.size(); i++) {
-                avrage =  avrage + avragenumber[i];
-            }
+            for (unsigned int i = 0; i< avragenumber.size(); i++)
+                    {
+                        avrage =  avrage + avragenumber[i];
+                    }
             
-    avrage = avrage / avragenumber.size();
-    }
+            avrage = avrage / avragenumber.size();
+   
+        }
     
-    //cout<< avrage <<endl;
-   /*
-    if (avragenumber.size() > 40)
-    {
-        avragenumber.clear();
-        
-    }
-    */
-   // volumeToCheck =  spectralFlux[avrage];
-   // for (int i = 0; i< 10; i++){
-    
+ 
+   
+    //if the avrage onset detection is above pre set threshold add it so a vector and calculate the avrage
     if (spectralFlux[avrage] > 0.6){
     
+    //add to vector
     avrageVolumeList.push_back(spectralFlux[avrage]);
         
-    //}
-   
-    
+  
+   //calculate avrage
     for (unsigned int i = 0; i< avrageVolumeList.size(); i++) {
         avrageVolume =  avrageVolume + avrageVolumeList[i];
     }
+        
     avrageVolume = avrageVolume / avrageVolumeList.size();
     
+    //set the final threshold meter but -0.2 to create some error margine (the onset in not gonna be the same amplitude value every time)
     volumeToCheck = avrageVolume -0.2;
-    //cout<<avVolume<<endl;
+    
     };
     
-   // lastVolumeToCheck = volumeToCheck;
    
+    //the following code is used to draw the amplitudes messured by the system on screen
     
-    //------draw volume
     
-    scaledVol = spectralFlux[avrage];
+    //code to draw the spectral flux amplitude on screen
     
-    //lets record the volume into an array
-    volHistory.push_back( scaledVol );
+    //messure the current amplitude value of the onset detection fft band we are watching
+    AmplitudeVol = spectralFlux[avrage];
     
-    //if we are bigger the the size we want to record - lets drop the oldest value
+    //put the amplitude value into a vector
+    volHistory.push_back( AmplitudeVol );
+    
+    //if buffer size is bigger than the size to be recorded drop the last value
     if( volHistory.size() >= 400 ){
         volHistory.erase(volHistory.begin(), volHistory.begin()+1);
     }
     
     
-    //clean audio
+    
+    //code to draw the pre procced fft amplitude on screen
+    
     CleanScaledVol = Fourier_transform.update(avrage);
     
-    //lets record the volume into an array
+    
     CleanVolHistory.push_back( CleanScaledVol );
     
-    //if we are bigger the the size we want to record - lets drop the oldest value
+   
     if( CleanVolHistory.size() >= 400 ){
         CleanVolHistory.erase(CleanVolHistory.begin(), CleanVolHistory.begin()+1);
     }
@@ -191,29 +190,30 @@ void ofApp::update(){
     
     
     
-    //cout<<volumeToCheck<<endl;
     
-    
+    //reset peak finder buffer to recalculate
     peakFinder.clear();
    
-   //  detect.detection("kick", 0.5, spectralFlux[5]);
-   detect.detection("kick", volumeToCheck, spectralFlux[avrage]);
-   // detect.detection("kick", lastVolumeToCheck, Fourier_transform.update(bigestNumber));
+   
+    
+    //---------enter the analysis algorithm
+    //the core of the whole system is in this function:
+    
+   detect.detection(volumeToCheck, spectralFlux[avrage]);
+  
+    //----------------------
+    
+    //reset buffer to recalculate
+    spectralFlux.clear();
+    
+    
+    
     
     //spectral flux
     //https://www.badlogicgames.com/wordpress/?p=161
 
 
-    
- 
-
-
-    
    
-    
-    spectralFlux.clear();
-   
-    
     
   }
 
@@ -225,13 +225,12 @@ void ofApp::draw(){
     ofSetLineWidth(1);
     ofDrawRectangle(0, 451, 400, 150);
    
-    
     ofSetLineWidth(1);
     ofDrawRectangle(0, 180, 400, 170);
     
     
     
-   // Fourier_transform.draw();
+   //code for drawing fft bands on screen
     ofFill();
     float width = (float)20;
     //this part of the code is to
@@ -251,6 +250,7 @@ void ofApp::draw(){
     }
     
     //code to draw spectral flux processed audio on screen
+    
     ofNoFill();
     ofBeginShape();
     for (unsigned int i = 0; i < volHistory.size(); i++){

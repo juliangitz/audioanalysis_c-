@@ -70,7 +70,7 @@ class ofApp : public ofBaseApp{
 
     //------draw volume
     vector <float> volHistory;
-    float scaledVol = 0.0;
+    float AmplitudeVol = 0.0;
     float detectionpoint = 0.0;
     
     
