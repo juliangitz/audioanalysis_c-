@@ -214,7 +214,7 @@ void ofApp::update(){
 
     
  
-   
+
 
     
    
@@ -228,36 +228,38 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+    //code to draw nice looking rectangle shapes on the screen
     ofNoFill();
     ofSetLineWidth(1);
-    ofDrawRectangle(0, 501, 400, 100);
+    ofDrawRectangle(0, 451, 400, 150);
    
     
     ofSetLineWidth(1);
-    ofDrawRectangle(0, 101, 400, 100);
+    ofDrawRectangle(0, 51, 400, 150);
     
     
     
    // Fourier_transform.draw();
     ofFill();
-    float width = (float)10;
-    //
-    for (int i = 0;i < 10; i++){
-        // (we use negative height here, because we want to flip them
-        // because the top corner is 0,0)
-       // int number;
-         ofSetColor(100, 100, 100);
-        //number = spectralFlux[i];
+    float width = (float)20;
+    //this part of the code is to
+    for (int i = 0;i < 6; i++){
+
+      //this is to color the band number we are curently monitoring white
+        
+        ofSetColor(100, 100, 100);
+        
         if (i == avrage){
             ofSetColor(255, 255, 255);
-           // cout<<"bam"<<endl;
         };
         
-        
-        ofDrawRectangle(400+i*width,ofGetHeight()-300,width,-(spectralFlux[i] * 200));
+        //draw the fft bands on screen
+        ofDrawRectangle(451+i*width,ofGetHeight()-165,width,-(spectralFlux[i] * 200));
      
     }
-     ofNoFill();
+    
+    //code to draw spectral flux processed audio on screen
+    ofNoFill();
     ofBeginShape();
     for (unsigned int i = 0; i < volHistory.size(); i++){
         if( i == 0 ) ofVertex(i, 600);
@@ -273,19 +275,16 @@ void ofApp::draw(){
         ofEndShape(false);
     ofSetColor(200, 100, 100);
     ofDrawLine(0, detectionpoint, 400, detectionpoint);
-   // ofdrawline
+  
     
     
-    //clean audio
+    //code to draw clean fft band fignal (pre spectral flux processing)
     
     ofBeginShape();
     for (unsigned int i = 0; i < CleanVolHistory.size(); i++){
         if( i == 0 )
         ofVertex(i, 200);
         
-        
-        
-    
         ofVertex(i, 200 - CleanVolHistory[i] * 70);
         
         if( i == CleanVolHistory.size() -1 )
@@ -294,17 +293,17 @@ void ofApp::draw(){
             }
     ofEndShape(false);
     
-
-    
-    
-    
  
+    
+    
+ //code to draw text to screen
+    
     string reportString = "bpm: "+ofToString(detect.getBpm());
     ofDrawBitmapString(reportString, 32, 689);
     string audioString = "procesed audio: ";
-    ofDrawBitmapString(audioString, 4, 496);
+    ofDrawBitmapString(audioString, 4, 448);
     string audio = "audio: ";
-    ofDrawBitmapString(audio, 4, 96);
+    ofDrawBitmapString(audio, 4, 46);
     
 }
 

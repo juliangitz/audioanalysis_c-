@@ -69,6 +69,7 @@ public:
     vector <float> avrageFinal;
     float bpmOut = 0;
 
+
     
     //to count the beats in a minute
   

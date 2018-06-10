@@ -112,9 +112,10 @@ float onsetDetection::detection(string numbertest, float detectValue, float inpu
                 pulseData.clear();
                 steadyPulseData.clear();
                 avrageFinal.clear();
-               
+             
+                timeswrong = 0;
                 cout<<"cleared data"<<endl;
-               timeswrong = 0;
+              
                 
             }
            // pulseData.clear();
@@ -207,20 +208,25 @@ float onsetDetection::detection(string numbertest, float detectValue, float inpu
             cout<< avrageFinal.size() <<endl;
             // roundf(FinalResult);
             cout<<FinalResult<<endl;
+            if (avrageFinal.size()> 1){
+                if (FinalResult<200){
+                    
+                    
+                    bpmOut = FinalResult;
+                }
+            }
+                
                 if (avrageFinal.size()> 2){
                  
                     //if correct twice reset the buffer and start counting the bpm
                     steadyPulseData.clear();
+                    //prevent uncommon bpm values to get passed through
+                   
                     
-                    cout<<"current:"<<endl;
-                    cout<<FinalResult<<endl;
-                    
-                    
-                    bpmOut = FinalResult;
                  
                     
                 }
-             
+               
         
             }
             
