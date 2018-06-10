@@ -46,7 +46,7 @@ class ofApp : public ofBaseApp{
     //peek finder
     vector<int> avragenumber;
     int avrage;
-    bool chanche =false;
+    bool calculateBand =false;
     
     vector<float> peakFinder;
     float peak = 0;

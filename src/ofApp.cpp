@@ -24,35 +24,17 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+   
+    
+    
     // update the sound playing system
     //NOTE: is this needed?
     ofSoundUpdate();
     
-   /*
-    peak = 0;
-    
-    for (int i = 0; i< 10; i++){
-        peakFinder.push_back(Fourier_transform.update(i));
-       
-        }
-    
-    for (unsigned int i = 0; i< peakFinder.size(); i++){
-        if (peakFinder[i] > peak){
-            peak = peakFinder[i];
-            bigestNumber = i;
-            volumeToCheck = Fourier_transform.update(bigestNumber);
-            volumeToCheck = volumeToCheck - 0.8;
-            lastVolumeToCheck = volumeToCheck;
-        }
-  //  cout << "The biggest volume is: " << volumeToCheck << endl;
-   
-    }
-    */
+
     
     
-    
-    
-   peak = 0;
+  
     
     
     //spectral flux algorithm
@@ -63,21 +45,20 @@ void ofApp::update(){
         spectrum.push_back(Fourier_transform.update(i));
         
     }
+    //spectral flux claculation
     
+    //do this after having revived the both the current and last value. (so ignore this code the first time )
     if (dataAvalible == true){
-        //flux claculation
+   
         for (unsigned int i = 0; i<spectrum.size(); i++ )
         {
-         
+            //compare current & last fft spectrum point
             float value = (spectrum[i] - lastSpectrum[i]);
             if (value > 0){
                 flux = value;
                 spectralFlux.push_back(flux);
             }
-            
-
-             // cout<<flux<<endl;
-    
+        
         }
         
     }
@@ -85,57 +66,68 @@ void ofApp::update(){
     
     spectralFlux.push_back(flux);
     
-    
+    //clean out data
     lastSpectrum.clear();
     
+    //add the prev spectrum data point
     for (int i = 0; i< 10; i++){
-        //add the prev spectrum data
         lastSpectrum.push_back(spectrum[i]);
         dataAvalible = true;
     }
+ 
+    //-------Peak meter
+    //this part of the code calculates whitch band to find the onset (bigestNumber)
+    //and determine the treshold for the onset detection (peak)
     
-    for (int i = 0; i< spectralFlux.size(); i++){
-        float fluxvalue = spectralFlux[1];
-      //  cout<< fluxvalue << endl;
-    }
     
-
+    //reset peak meter to 0 to recalculate every time
     peak = 0;
     
+    //add spectralFlux data for peak analysis
     for (int i = 0; i< 10; i++){
         peakFinder.push_back(spectralFlux[i]);
         
     }
     
+    //peak/onset finding algorithm code
+    
     for (unsigned int i = 0; i< 10; i++){
+        //if current value is bigger than the last mesured biggest peak make the current one the biggest
         if (peakFinder[i] > peak){
             peak = peakFinder[i];
             
             bigestNumber = i;
             
-          
-                
-        
-       
             
+            calculateBand = false;
             
-            chanche =false;
+            //push the biggest peak number to a vector to calculate the avrage biggest number
             if( bigestNumber != lastbigestNumber){
+                
             avragenumber.push_back(bigestNumber);
-              //  cout<<bigestNumber<<endl;
-                chanche =true;
+                //after this code is run the algorithm can start calculating, all the nessesary data has been collected
+                calculateBand =true;
+                
             }
+            
+            //pass biggest number on to lastbigestNumber for comperison later
              lastbigestNumber = bigestNumber;
            
         }
-       //   cout << "The biggest volume is: " << lastVolumeToCheck << endl;
+      
         
     }
-    if (chanche == true)
-    {
-    for (unsigned int i = 0; i< avragenumber.size(); i++) {
-        avrage =  avrage + avragenumber[i];
-    }
+    //algorithm witch calculates witch fft band to find the onset
+    
+    //this code structure will be used a lot
+    //its basicly how I calculate the avrage of a vector
+    //here we calculate the avrage band to find the onset
+    if (calculateBand == true)
+        {
+            for (unsigned int i = 0; i< avragenumber.size(); i++) {
+                avrage =  avrage + avragenumber[i];
+            }
+            
     avrage = avrage / avragenumber.size();
     }
     
@@ -235,7 +227,7 @@ void ofApp::draw(){
    
     
     ofSetLineWidth(1);
-    ofDrawRectangle(0, 51, 400, 150);
+    ofDrawRectangle(0, 180, 400, 170);
     
     
     
@@ -277,18 +269,18 @@ void ofApp::draw(){
     ofDrawLine(0, detectionpoint, 400, detectionpoint);
   
     
-    
+ 
     //code to draw clean fft band fignal (pre spectral flux processing)
     
     ofBeginShape();
     for (unsigned int i = 0; i < CleanVolHistory.size(); i++){
         if( i == 0 )
-        ofVertex(i, 200);
+        ofVertex(i, 350);
         
-        ofVertex(i, 200 - CleanVolHistory[i] * 70);
+        ofVertex(i, 350 - CleanVolHistory[i] * 70);
         
         if( i == CleanVolHistory.size() -1 )
-            ofVertex(i, 200);
+            ofVertex(i, 350);
         
             }
     ofEndShape(false);
@@ -303,7 +295,7 @@ void ofApp::draw(){
     string audioString = "procesed audio: ";
     ofDrawBitmapString(audioString, 4, 448);
     string audio = "audio: ";
-    ofDrawBitmapString(audio, 4, 46);
+    ofDrawBitmapString(audio, 4, 175);
     
 }
 

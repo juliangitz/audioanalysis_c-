@@ -107,7 +107,7 @@ float onsetDetection::detection(string numbertest, float detectValue, float inpu
                 
             }
             
-            if (timeswrong == 2){
+            if (timeswrong == 1){
                 onsetData.clear();
                 pulseData.clear();
                 steadyPulseData.clear();
@@ -208,7 +208,7 @@ float onsetDetection::detection(string numbertest, float detectValue, float inpu
             cout<< avrageFinal.size() <<endl;
             // roundf(FinalResult);
             cout<<FinalResult<<endl;
-            if (avrageFinal.size()> 1){
+            if (avrageFinal.size()> 0){
                 if (FinalResult<200){
                     
                     
@@ -216,7 +216,7 @@ float onsetDetection::detection(string numbertest, float detectValue, float inpu
                 }
             }
                 
-                if (avrageFinal.size()> 2){
+                if (avrageFinal.size()> 1){
                  
                     //if correct twice reset the buffer and start counting the bpm
                     steadyPulseData.clear();
