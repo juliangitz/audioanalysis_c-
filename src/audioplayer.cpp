@@ -6,33 +6,42 @@
 //
 //
 
-//TODO: fix arangement of peaking volume in inteface
+
 
 #include "audioplayer.h"
 
 void audioPlayer::setup(){
+    //audio to test algorithm with:
     
-    //easy test
+    
+    //these are the audio files in my data folder of the openframeworks project,
+    //to play a sound file you will probably have to add your own files to the data folder and replace the name
+    
+    //_____easy test
    
- // Audio.load("kickloop.wav");
+    // Audio.load("kickloop.wav");
    
 
-    //more advanced tests:
+    //_____normal tests:
    
-   //Audio.load("vamp.mp3");
-    
+    Audio.load("vamp.mp3");
     //Audio.load("profoundExperiences.flac");
    
    
-    //harder test
+    //_____hard test
 
    // Audio.load("OrganicPaprika.mp3");
-  // Audio.load("04 Disco Boy.mp3");
-   Audio.load("08 Rhythm & Sound - Carrier.flac");
-   // Audio.load("Disko Partizani.mp3");
-   // Audio.load("kick test.wav");
+   
+    //Audio.load("04 Disco Boy.mp3");
+    // Audio.load("08 Rhythm & Sound - Carrier.flac");
+    //Audio.load("Disko Partizani.mp3");
+    // Audio.load("kick test.wav");
+   
+    
+    //standart audio settings looping and volume
     Audio.setVolume(0.5);
     Audio.setLoop(1);
+    //play audio
     Audio.play();
     
 }

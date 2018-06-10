@@ -19,7 +19,7 @@ public:
     fft();
     
     ~fft();
-    //
+    
     float * fftsignal;
     
     //defines the amound of bands the fft is using
