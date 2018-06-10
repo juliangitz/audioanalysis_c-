@@ -27,9 +27,9 @@ void audioPlayer::setup(){
     //harder test
 
     //Audio.load("OrganicPaprika.mp3");
-    Audio.load("04 Disco Boy.mp3");
+    //Audio.load("04 Disco Boy.mp3");
   //  Audio.load("08 Rhythm & Sound - Carrier.flac");
-      // Audio.load("")
+    Audio.load("Disko Partizani.mp3");
     Audio.setVolume(0.5);
     Audio.setLoop(1);
     Audio.play();

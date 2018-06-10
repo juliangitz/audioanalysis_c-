@@ -55,7 +55,6 @@ void ofApp::update(){
    peak = 0;
     
     
-    
     //spectral flux algorithm
     
     spectrum.clear();
@@ -294,6 +293,11 @@ void ofApp::draw(){
         
             }
     ofEndShape(false);
+    
+
+    
+    
+    
  
     string reportString = "bpm: "+ofToString(detect.getBpm());
     ofDrawBitmapString(reportString, 32, 689);

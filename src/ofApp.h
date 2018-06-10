@@ -77,5 +77,8 @@ class ofApp : public ofBaseApp{
     vector <float> CleanVolHistory;
     float CleanScaledVol = 0.0;
     
+    
+
+    
  
 };

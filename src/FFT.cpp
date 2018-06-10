@@ -39,8 +39,7 @@ float fft::update(int bands){
         fftsignal[i] *= 0.86f;
         
         
-        
-        
+      
         // take the max, either the smoothed or the incoming:
         if (fftsignal[i] < val[i]) fftsignal[i] = val[i];
         

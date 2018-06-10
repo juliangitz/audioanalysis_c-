@@ -207,12 +207,9 @@ float onsetDetection::detection(string numbertest, float detectValue, float inpu
             cout<< avrageFinal.size() <<endl;
             // roundf(FinalResult);
             cout<<FinalResult<<endl;
-                if (avrageFinal.size()> 1){
-                    
-                    cout<<"old result: "<<endl;
-                    
-                    cout<<FinalResult<<endl;
-                   // FinalResult = 60 / detectedInteval;
+                if (avrageFinal.size()> 2){
+                 
+                    //if correct twice reset the buffer and start counting the bpm
                     steadyPulseData.clear();
                     
                     cout<<"current:"<<endl;
@@ -220,12 +217,11 @@ float onsetDetection::detection(string numbertest, float detectValue, float inpu
                     
                     
                     bpmOut = FinalResult;
-                   // bpmOut =definiteBpm;
+                 
                     
                 }
              
-              //  bpmOut =FinalResult;
-                
+        
             }
             
             //reset the avrage vlue to be devided to zero again:
