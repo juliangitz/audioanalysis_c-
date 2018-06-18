@@ -1,5 +1,9 @@
 #include "ofApp.h"
 
+//the code used to draw stuff on the screen is based on a modified version of the openframeworks standart examples
+//openframeworks/examples/sound/soundPlayerFFTExample (to draw the fft bins)
+//openframeworks/examples/sound/audioInputExample (to draw the audio history graphs)
+
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofBackground(54, 54, 54);
@@ -42,6 +46,8 @@ void ofApp::update(){
         
         }
     //spectral flux claculation
+    //spectral flux code is based on this article:
+    //https://www.badlogicgames.com/wordpress/?p=161
     
     //do this after having revived the both the current and last value. (so ignore this code the first time )
     if (dataAvalible == true){
@@ -161,6 +167,8 @@ void ofApp::update(){
     
     
     //code to draw the spectral flux amplitude on screen
+    //based on openframeworks/examples/sound/audioInputExample
+    //____________________________________________________________
     
     //messure the current amplitude value of the onset detection fft band we are watching
     AmplitudeVol = spectralFlux[avrageBand];
@@ -188,6 +196,7 @@ void ofApp::update(){
         {
             CleanVolHistory.erase(CleanVolHistory.begin(), CleanVolHistory.begin()+1);
         }
+    //____________________________________________________________
     
     
     
@@ -196,26 +205,23 @@ void ofApp::update(){
     
     
     
-    //reset peak finder buffer to recalculate
-    peakFinder.clear();
    
-   
-    //---------------------------------------------------------------------
+ =
     //---------enter the analysis algorithm
     
     //the core of the whole system is in this function:
    detect.detection(volumeToCheck, spectralFlux[avrageBand]);
   
-    //----------------------------------------------------------
-    
+    //------------------------------------
     //reset buffer to recalculate
     spectralFlux.clear();
     
+    //reset peak finder buffer to recalculate
+    peakFinder.clear();
     
     
     
-    //spectral flux
-    //https://www.badlogicgames.com/wordpress/?p=161
+   
 
 
    
@@ -235,7 +241,9 @@ void ofApp::draw(){
     
     
     
-   //code for drawing fft bands on screen
+    //code for drawing fft bands on screen
+    //loosley based on openframeworks/examples/sound/soundPlayerFFTExample (to draw the fft bins)
+    //____________________________________________________________
     ofFill();
     float width = (float)20;
     //this part of the code is to
@@ -256,8 +264,13 @@ void ofApp::draw(){
      
     }
     
-    //code to draw spectral flux processed audio on screen
+    //____________________________________________________________
     
+    
+    
+    //code to draw spectral flux processed audio on screen
+    //based on openframeworks/examples/sound/audioInputExample
+    //____________________________________________________________
     ofNoFill();
     ofBeginShape();
     for (unsigned int i = 0; i < volHistory.size(); i++)
@@ -296,9 +309,9 @@ void ofApp::draw(){
     ofEndShape(false);
     
  
+     //____________________________________________________________
     
-    
- //code to draw text to screen
+    //code to draw text to screen
     
     string reportString = "bpm: "+ofToString(detect.getBpm());
     ofDrawBitmapString(reportString, 32, 689);

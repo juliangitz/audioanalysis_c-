@@ -8,6 +8,8 @@
 
 #include "FFT.h"
 
+//this class is based on the code from the openframeworks sound fft examples
+//openframeworks/examples/sound/soundPlayerFFTExample
 
 fft::fft(){};
 
