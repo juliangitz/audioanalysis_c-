@@ -9,6 +9,9 @@
 #ifndef FFT_h
 #define FFT_h
 
+//this class is based on the code from the openframeworks sound fft examples
+//openframeworks/examples/sound/soundPlayerFFTExample
+
 //include openframeworks libs
 #include "ofMain.h"
 

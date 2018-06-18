@@ -13,24 +13,14 @@
 void audioPlayer::setup(){
     //audio to test algorithm with:
     
-    //_____easy test
+    
+    //this is  the audio in my data folder of the openframeworks project,
+    //to play a sound file you will probably have to add your own files to the data folder and replace the name
+    
+    
    
-    // Audio.load("kickloop.wav");
-   
-
-    //_____normal tests:
-   
-    //Audio.load("vamp.mp3");
-    //Audio.load("profoundExperiences.flac");
-   
-   
-    //_____hard test
-
-    //Audio.load("OrganicPaprika.mp3");
-    // Audio.load("04 Disco Boy.mp3");
-    Audio.load("08 Rhythm & Sound - Carrier.flac");
-    // Audio.load("Disko Partizani.mp3");
-    // Audio.load("kick test.wav");
+    Audio.load("Disko Partizani.mp3");
+    
    
     
     //standart audio settings looping and volume

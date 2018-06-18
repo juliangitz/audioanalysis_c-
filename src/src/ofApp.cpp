@@ -1,5 +1,9 @@
 #include "ofApp.h"
 
+//the code used to draw stuff on the screen is based on a modified version of the openframeworks standart examples
+//openframeworks/examples/sound/soundPlayerFFTExample (to draw the fft bins)
+//openframeworks/examples/sound/audioInputExample (to draw the audio history graphs)
+
 //--------------------------------------------------------------
 void ofApp::setup(){
     ofBackground(54, 54, 54);
@@ -12,7 +16,7 @@ void ofApp::setup(){
     //set up the fft and give the amound of bands to look at
     Fourier_transform.setup(1024);
     
-    //TODO: add moving balls easer egg??
+
     
    
     
@@ -34,12 +38,16 @@ void ofApp::update(){
     //clear spectrum data
     spectrum.clear();
     
-    for (int i = 0; i< 10; i++){
-        //add the fft values of all the bands to the spectrum vector
-        spectrum.push_back(Fourier_transform.update(i));
+    for (int i = 0; i< 10; i++)
+        {
+            
+            //add the fft values of all the bands to the spectrum vector
+            spectrum.push_back(Fourier_transform.update(i));
         
-    }
+        }
     //spectral flux claculation
+    //spectral flux code is based on this article:
+    //https://www.badlogicgames.com/wordpress/?p=161
     
     //do this after having revived the both the current and last value. (so ignore this code the first time )
     if (dataAvalible == true){
@@ -48,7 +56,8 @@ void ofApp::update(){
         {
             //compare current & last fft spectrum point
             float value = (spectrum[i] - lastSpectrum[i]);
-            if (value > 0){
+            if (value > 0)
+            {
                 flux = value;
                 spectralFlux.push_back(flux);
             }
@@ -64,10 +73,11 @@ void ofApp::update(){
     lastSpectrum.clear();
     
     //add the prev spectrum data point
-    for (int i = 0; i< 10; i++){
-        lastSpectrum.push_back(spectrum[i]);
-        dataAvalible = true;
-    }
+    for (int i = 0; i< 10; i++)
+        {
+            lastSpectrum.push_back(spectrum[i]);
+            dataAvalible = true;
+        }
  
     //-------Peak meter
     //this part of the code calculates whitch band to find the onset (bigestNumber)
@@ -78,10 +88,11 @@ void ofApp::update(){
     peak = 0;
     
     //add spectralFlux data for peak analysis
-    for (int i = 0; i< 10; i++){
-        peakFinder.push_back(spectralFlux[i]);
+    for (int i = 0; i< 10; i++)
+        {
+            peakFinder.push_back(spectralFlux[i]);
         
-    }
+        }
     
     //peak/onset finding algorithm code
     
@@ -96,13 +107,14 @@ void ofApp::update(){
             calculateBand = false;
             
             //push the biggest peak number to a vector to calculate the avrage biggest number
-            if( bigestNumber != lastbigestNumber){
+            if( bigestNumber != lastbigestNumber)
+                {
                 
-            avragenumber.push_back(bigestNumber);
-                //after this code is run the algorithm can start calculating, all the nessesary data has been collected
-                calculateBand =true;
+                    avrageBandNumber.push_back(bigestNumber);
+                    //after this code is run the algorithm can start calculating, all the nessesary data has been collected
+                    calculateBand =true;
                 
-            }
+                }
             
             //pass biggest number on to lastbigestNumber for comperison later
              lastbigestNumber = bigestNumber;
@@ -118,33 +130,35 @@ void ofApp::update(){
     //here we calculate the avrage band to find the onset
     if (calculateBand == true)
         {
-            for (unsigned int i = 0; i< avragenumber.size(); i++)
+            for (unsigned int i = 0; i< avrageBandNumber.size(); i++)
                     {
-                        avrage =  avrage + avragenumber[i];
+                        avrageBand =  avrageBand + avrageBandNumber[i];
                     }
             
-            avrage = avrage / avragenumber.size();
+            avrageBand = avrageBand / avrageBandNumber.size();
    
         }
     
  
    
     //if the avrage onset detection is above pre set threshold add it so a vector and calculate the avrage
-    if (spectralFlux[avrage] > 0.6){
+    if (spectralFlux[avrageBand] > 0.6)
+    {
     
-    //add to vector
-    avrageVolumeList.push_back(spectralFlux[avrage]);
+        //add to vector
+        avrageVolumeList.push_back(spectralFlux[avrageBand]);
         
   
-   //calculate avrage
-    for (unsigned int i = 0; i< avrageVolumeList.size(); i++) {
-        avrageVolume =  avrageVolume + avrageVolumeList[i];
-    }
+        //calculate avrage
+            for (unsigned int i = 0; i< avrageVolumeList.size(); i++)
+                {
+                    avrageVolume =  avrageVolume + avrageVolumeList[i];
+                }
         
-    avrageVolume = avrageVolume / avrageVolumeList.size();
+        avrageVolume = avrageVolume / avrageVolumeList.size();
     
-    //set the final threshold meter but -0.2 to create some error margine (the onset in not gonna be the same amplitude value every time)
-    volumeToCheck = avrageVolume -0.2;
+        //set the final threshold meter but -0.2 to create some error margine (the onset in not gonna be the same amplitude value every time)
+        volumeToCheck = avrageVolume -0.2;
     
     };
     
@@ -153,31 +167,36 @@ void ofApp::update(){
     
     
     //code to draw the spectral flux amplitude on screen
+    //based on openframeworks/examples/sound/audioInputExample
+    //____________________________________________________________
     
     //messure the current amplitude value of the onset detection fft band we are watching
-    AmplitudeVol = spectralFlux[avrage];
+    AmplitudeVol = spectralFlux[avrageBand];
     
     //put the amplitude value into a vector
     volHistory.push_back( AmplitudeVol );
     
     //if buffer size is bigger than the size to be recorded drop the last value
-    if( volHistory.size() >= 400 ){
-        volHistory.erase(volHistory.begin(), volHistory.begin()+1);
-    }
+    if( volHistory.size() >= 400 )
+        {
+            volHistory.erase(volHistory.begin(), volHistory.begin()+1);
+        }
     
     
     
     //code to draw the pre procced fft amplitude on screen
     
-    CleanScaledVol = Fourier_transform.update(avrage);
+    CleanScaledVol = Fourier_transform.update(avrageBand);
     
     
     CleanVolHistory.push_back( CleanScaledVol );
     
    
-    if( CleanVolHistory.size() >= 400 ){
-        CleanVolHistory.erase(CleanVolHistory.begin(), CleanVolHistory.begin()+1);
-    }
+    if( CleanVolHistory.size() >= 400 )
+        {
+            CleanVolHistory.erase(CleanVolHistory.begin(), CleanVolHistory.begin()+1);
+        }
+    //____________________________________________________________
     
     
     
@@ -186,26 +205,23 @@ void ofApp::update(){
     
     
     
-    //reset peak finder buffer to recalculate
-    peakFinder.clear();
    
-   
-    
+ =
     //---------enter the analysis algorithm
     
     //the core of the whole system is in this function:
-   detect.detection(volumeToCheck, spectralFlux[avrage]);
+   detect.detection(volumeToCheck, spectralFlux[avrageBand]);
   
-    //----------------------
-    
+    //------------------------------------
     //reset buffer to recalculate
     spectralFlux.clear();
     
+    //reset peak finder buffer to recalculate
+    peakFinder.clear();
     
     
     
-    //spectral flux
-    //https://www.badlogicgames.com/wordpress/?p=161
+   
 
 
    
@@ -225,41 +241,51 @@ void ofApp::draw(){
     
     
     
-   //code for drawing fft bands on screen
+    //code for drawing fft bands on screen
+    //loosley based on openframeworks/examples/sound/soundPlayerFFTExample (to draw the fft bins)
+    //____________________________________________________________
     ofFill();
     float width = (float)20;
     //this part of the code is to
-    for (int i = 0;i < 6; i++){
+    for (int i = 0;i < 6; i++)
+        {
 
-      //this is to color the band number we are curently monitoring white
+            //this is to color the band number we are curently monitoring white
         
-        ofSetColor(100, 100, 100);
+            ofSetColor(100, 100, 100);
         
-        if (i == avrage){
-            ofSetColor(255, 255, 255);
-        };
+                if (i == avrageBand)
+                    {
+                        ofSetColor(255, 255, 255);
+                    };
         
         //draw the fft bands on screen
         ofDrawRectangle(451+i*width,ofGetHeight()-165,width,-(spectralFlux[i] * 200));
      
     }
     
-    //code to draw spectral flux processed audio on screen
+    //____________________________________________________________
     
+    
+    
+    //code to draw spectral flux processed audio on screen
+    //based on openframeworks/examples/sound/audioInputExample
+    //____________________________________________________________
     ofNoFill();
     ofBeginShape();
-    for (unsigned int i = 0; i < volHistory.size(); i++){
-        if( i == 0 ) ofVertex(i, 600);
+    for (unsigned int i = 0; i < volHistory.size(); i++)
+        {
+            if( i == 0 ) ofVertex(i, 600);
    
   
       
-        detectionpoint = 600 - volumeToCheck * 70;
-        ofVertex(i, 600 - volHistory[i] * 70);
+            detectionpoint = 600 - volumeToCheck * 70;
+            ofVertex(i, 600 - volHistory[i] * 70);
       
-        if( i == volHistory.size() -1 ) ofVertex(i, 600);
+            if( i == volHistory.size() -1 ) ofVertex(i, 600);
        
     }
-        ofEndShape(false);
+    ofEndShape(false);
     ofSetColor(200, 100, 100);
     ofDrawLine(0, detectionpoint, 400, detectionpoint);
   
@@ -268,23 +294,24 @@ void ofApp::draw(){
     //code to draw clean fft band fignal (pre spectral flux processing)
     
     ofBeginShape();
-    for (unsigned int i = 0; i < CleanVolHistory.size(); i++){
-        if( i == 0 )
+    for (unsigned int i = 0; i < CleanVolHistory.size(); i++)
+        {
+            if( i == 0 )
         
-        ofVertex(i, 350);
+                ofVertex(i, 350);
         
-        ofVertex(i, 350 - CleanVolHistory[i] * 70);
+            ofVertex(i, 350 - CleanVolHistory[i] * 70);
         
-        if( i == CleanVolHistory.size() -1 )
-            ofVertex(i, 350);
+            if( i == CleanVolHistory.size() -1 )
+                ofVertex(i, 350);
         
             }
     ofEndShape(false);
     
  
+     //____________________________________________________________
     
-    
- //code to draw text to screen
+    //code to draw text to screen
     
     string reportString = "bpm: "+ofToString(detect.getBpm());
     ofDrawBitmapString(reportString, 32, 689);
@@ -295,57 +322,4 @@ void ofApp::draw(){
     
 }
 
-//--------------------------------------------------------------
-void ofApp::keyPressed(int key){
 
-}
-
-//--------------------------------------------------------------
-void ofApp::keyReleased(int key){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y ){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::windowResized(int w, int h){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-//--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
-}

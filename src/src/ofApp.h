@@ -18,21 +18,13 @@
 class ofApp : public ofBaseApp{
 
 	public:
+    
+    //basic openframework functions to keep the system running
 		void setup();
 		void update();
 		void draw();
 
-		void keyPressed(int key);
-		void keyReleased(int key);
-		void mouseMoved(int x, int y );
-		void mouseDragged(int x, int y, int button);
-		void mousePressed(int x, int y, int button);
-		void mouseReleased(int x, int y, int button);
-		void mouseEntered(int x, int y);
-		void mouseExited(int x, int y);
-		void windowResized(int w, int h);
-		void dragEvent(ofDragInfo dragInfo);
-		void gotMessage(ofMessage msg);
+	
     
     
     //make an instance of the audio player class
@@ -44,8 +36,8 @@ class ofApp : public ofBaseApp{
         onsetDetection detect;
     
     //peek finder
-    vector<int> avragenumber;
-    int avrage;
+    vector<int> avrageBandNumber;
+    int avrageBand;
     bool calculateBand =false;
     
     vector<float> peakFinder;

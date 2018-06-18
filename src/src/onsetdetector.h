@@ -39,7 +39,7 @@ public:
     vector <float>  steadyPulseData;
     float finalpulse =0;
     float finalbpm = 0;
-    float average = 0 ;
+    float averageInterval = 0 ;
    
     
     
